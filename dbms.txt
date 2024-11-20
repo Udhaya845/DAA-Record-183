@@ -1,0 +1,1812 @@
+1.
+Part 1: SQL Table Creation, Insertion, and Operations
+a. Create the MY_EMPLOYEE table
+To create the MY_EMPLOYEE table with the specified structure, we would use the following SQL CREATE TABLE statement:
+
+sql
+Copy code
+CREATE TABLE MY_EMPLOYEE (
+    ID NUMBER(4) NOT NULL,
+    Last_name VARCHAR2(25),
+    First_name VARCHAR2(25),
+    Userid VARCHAR2(25),
+    Salary NUMBER(9,2)
+);
+Insert 5 rows of data into the MY_EMPLOYEE table
+You can insert 5 rows of data into the MY_EMPLOYEE table using the INSERT INTO statement. Here's an example of how to do this:
+
+sql
+Copy code
+INSERT INTO MY_EMPLOYEE (ID, Last_name, First_name, Userid, Salary) VALUES (1001, 'Smith', 'John', 'jsmith', 55000.00);
+INSERT INTO MY_EMPLOYEE (ID, Last_name, First_name, Userid, Salary) VALUES (1002, 'Doe', 'Jane', 'jdoe', 62000.00);
+INSERT INTO MY_EMPLOYEE (ID, Last_name, First_name, Userid, Salary) VALUES (1003, 'Taylor', 'Charlie', 'ctaylor', 45000.00);
+INSERT INTO MY_EMPLOYEE (ID, Last_name, First_name, Userid, Salary) VALUES (1004, 'Brown', 'Emily', 'ebrown', 50000.00);
+INSERT INTO MY_EMPLOYEE (ID, Last_name, First_name, Userid, Salary) VALUES (1005, 'Wilson', 'David', 'dwilson', 70000.00);
+Display the table with values
+To view the contents of the MY_EMPLOYEE table, you would run the following SQL SELECT statement:
+
+sql
+Copy code
+SELECT * FROM MY_EMPLOYEE;
+Empty the fourth row of the MY_EMPLOYEE table
+To "empty" a row (delete data in the row without removing the row itself), you would update the row's columns to NULL values. You can achieve this with an UPDATE statement, targeting the row with ID = 1004:
+
+sql
+Copy code
+UPDATE MY_EMPLOYEE
+SET Last_name = NULL, First_name = NULL, Userid = NULL, Salary = NULL
+WHERE ID = 1004;
+This will set all the columns of the fourth row to NULL, effectively "emptying" the data in that row while keeping the row itself in the table.
+
+Part 2: PL/SQL Program to Find the Greatest of Two Numbers
+Here’s a simple PL/SQL block to find the greatest of two numbers:
+
+plsql
+Copy code
+DECLARE
+    num1 NUMBER;
+    num2 NUMBER;
+    greatest NUMBER;
+BEGIN
+    -- Assign values to num1 and num2
+    num1 := 10;  -- You can change these values
+    num2 := 20;
+
+    -- Logic to find the greatest number
+    IF num1 > num2 THEN
+        greatest := num1;
+    ELSE
+        greatest := num2;
+    END IF;
+
+    -- Display the greatest number
+    DBMS_OUTPUT.PUT_LINE('The greatest number is: ' || greatest);
+END;
+This PL/SQL program declares two numbers (num1 and num2), compares them using an IF-ELSE statement, and outputs the greatest number using DBMS_OUTPUT.PUT_LINE.
+
+Part 3: MongoDB Query
+For the MongoDB query, we need to find restaurants where:
+
+The prepared dish is not 'American' or 'Chinese'.
+Or the restaurant's name begins with 'Wil'.
+Assuming the restaurant data is stored in a collection called restaurants, and it has the following relevant fields:
+
+cuisine: the type of cuisine prepared by the restaurant.
+name: the name of the restaurant.
+borough: the borough where the restaurant is located.
+Here's the MongoDB query to find the required restaurants:
+
+js
+Copy code
+db.restaurants.find({
+    $or: [
+        { cuisine: { $nin: ['American', 'Chinese'] } },
+        { name: { $regex: /^Wil/, $options: 'i' } }
+    ]
+}, {
+    _id: 0,
+    restaurant_id: 1,
+    name: 1,
+    borough: 1,
+    cuisine: 1
+});
+Explanation:
+
+The $or operator allows you to specify multiple conditions.
+{ cuisine: { $nin: ['American', 'Chinese'] } }: Finds restaurants whose cuisine is not 'American' or 'Chinese'.
+{ name: { $regex: /^Wil/, $options: 'i' } }: Finds restaurants whose name starts with "Wil" (case-insensitive, using the $regex operator).
+The projection { _id: 0, restaurant_id: 1, name: 1, borough: 1, cuisine: 1 } is used to return only the fields restaurant_id, name, borough, and cuisine, excluding the _id.
+This query will return the restaurant_id, name, borough, and cuisine of all restaurants matching the conditions specified.
+
+2.
+Part 1: SQL Table Creation and Queries
+a. Create the EMPLOYEES Table
+To create the EMPLOYEES table with the given structure, you would use the following SQL CREATE TABLE statement:
+
+sql
+Copy code
+CREATE TABLE EMPLOYEES (
+    Employee_id NUMBER(6) NOT NULL,
+    First_Name VARCHAR2(20),
+    Last_Name VARCHAR2(25) NOT NULL,
+    Email VARCHAR2(25) NOT NULL,
+    Phone_Number VARCHAR2(20),
+    Hire_date DATE NOT NULL,
+    Job_id VARCHAR2(10) NOT NULL,
+    Salary NUMBER(8,2),
+    Commission_pct NUMBER(2,2),
+    Manager_id NUMBER(6),
+    Department_id NUMBER(4),
+    CONSTRAINT pk_employee_id PRIMARY KEY (Employee_id)
+);
+This SQL command creates a table EMPLOYEES with the specified columns and constraints.
+
+Queries:
+Find out the employee id, names, and salaries of all the employees:
+sql
+Copy code
+SELECT Employee_id, First_Name, Last_Name, Salary
+FROM EMPLOYEES;
+List out the employees who work under manager 100:
+sql
+Copy code
+SELECT Employee_id, First_Name, Last_Name, Manager_id
+FROM EMPLOYEES
+WHERE Manager_id = 100;
+Find the names of the employees who have a salary greater than or equal to 4800:
+sql
+Copy code
+SELECT First_Name, Last_Name, Salary
+FROM EMPLOYEES
+WHERE Salary >= 4800;
+List out the employees whose last name is "AUSTIN":
+sql
+Copy code
+SELECT First_Name, Last_Name
+FROM EMPLOYEES
+WHERE Last_Name = 'AUSTIN';
+Find the names of the employees who work in departments 60, 70, and 80:
+sql
+Copy code
+SELECT First_Name, Last_Name, Department_id
+FROM EMPLOYEES
+WHERE Department_id IN (60, 70, 80);
+Part 2: PL/SQL Program to Print Numbers from 1 to 5 in Reverse Order Using a For Loop
+Here’s a PL/SQL program that prints the numbers from 5 to 1 in reverse order using a FOR loop:
+
+plsql
+Copy code
+BEGIN
+    FOR i IN REVERSE 1..5 LOOP
+        DBMS_OUTPUT.PUT_LINE(i);
+    END LOOP;
+END;
+Explanation:
+
+The REVERSE keyword makes the loop count backwards, so the numbers will be printed from 5 to 1.
+Part 3: MongoDB Query for Insert and Update Operations in College Database
+Assuming you have a MongoDB collection called students within a college database, let's outline the insert and update operations.
+
+1. Insert Operation (Adding a new student record):
+To insert a new student into the students collection:
+
+js
+Copy code
+use college;  // Switch to the college database
+
+db.students.insertOne({
+    student_id: 101,
+    first_name: "John",
+    last_name: "Doe",
+    age: 22,
+    major: "Computer Science",
+    enrollment_date: new Date(),
+    gpa: 3.7
+});
+Explanation:
+
+This command inserts a new student document into the students collection with fields for student_id, first_name, last_name, age, major, enrollment_date, and gpa.
+2. Update Operation (Updating a student's information):
+To update the gpa of a student with student_id = 101:
+
+js
+Copy code
+db.students.updateOne(
+    { student_id: 101 },  // Filter condition to find the student with student_id 101
+    { $set: { gpa: 3.9 } }  // Set the new GPA value
+);
+Explanation:
+
+The updateOne method is used to update a single document. It first finds the student with student_id: 101, then updates their gpa to 3.9.
+Summary
+SQL Table Creation and Queries: We created the EMPLOYEES table and performed various queries to fetch employee details based on different conditions.
+PL/SQL Program: A program that prints numbers from 5 to 1 in reverse order using a FOR loop.
+MongoDB Insert/Update Operations: We inserted a new student record and updated an existing student's GPA in the students collection of the college database.
+Let me know if you need any further clarifications!
+
+3.
+a. Add a Table-Level PRIMARY KEY Constraint to the EMP Table on the ID Column
+To add a PRIMARY KEY constraint to the EMP table on the ID column, we will use the ALTER TABLE statement with the ADD CONSTRAINT clause. The constraint should be named my_emp_id_pk.
+
+sql
+Copy code
+ALTER TABLE EMP
+ADD CONSTRAINT my_emp_id_pk PRIMARY KEY (ID);
+Explanation:
+
+This statement adds a PRIMARY KEY constraint to the ID column in the EMP table.
+The constraint is named my_emp_id_pk.
+b. Create a PRIMARY KEY Constraint to the DEPT Table on the ID Column
+Similarly, to create a PRIMARY KEY constraint on the ID column of the DEPT table, you would use the following CREATE statement:
+
+sql
+Copy code
+ALTER TABLE DEPT
+ADD CONSTRAINT my_dept_id_pk PRIMARY KEY (ID);
+Explanation:
+
+This statement adds a PRIMARY KEY constraint to the ID column in the DEPT table.
+The constraint is named my_dept_id_pk.
+c. Add a Column DEPT_ID to the EMP Table and Add a Foreign Key Reference
+To add a DEPT_ID column to the EMP table and ensure that the employee is not assigned to a nonexistent department, we will:
+
+Add the DEPT_ID column.
+Add a FOREIGN KEY constraint that references the DEPT table to ensure referential integrity.
+sql
+Copy code
+-- Add the DEPT_ID column to the EMP table
+ALTER TABLE EMP
+ADD DEPT_ID NUMBER(4);
+
+-- Add the FOREIGN KEY constraint on the DEPT_ID column
+ALTER TABLE EMP
+ADD CONSTRAINT my_emp_dept_id_fk FOREIGN KEY (DEPT_ID)
+REFERENCES DEPT(ID);
+Explanation:
+
+First, the DEPT_ID column is added to the EMP table.
+Then, a FOREIGN KEY constraint is created that ensures the DEPT_ID column in the EMP table references the ID column in the DEPT table.
+The constraint is named my_emp_dept_id_fk.
+The FOREIGN KEY constraint ensures that any DEPT_ID in EMP must exist in the DEPT table, thus preventing employees from being assigned to non-existent departments.
+d. Write a PL/SQL Program to Calculate the Factorial of a Given Number
+A PL/SQL program to calculate the factorial of a given number can be written using a WHILE loop or a recursive function. Here's how to write it using a FOR loop:
+
+plsql
+Copy code
+DECLARE
+    num NUMBER := 5;  -- Example input
+    factorial NUMBER := 1;
+BEGIN
+    -- Loop to calculate factorial
+    FOR i IN 1..num LOOP
+        factorial := factorial * i;
+    END LOOP;
+
+    -- Output the result
+    DBMS_OUTPUT.PUT_LINE('The factorial of ' || num || ' is ' || factorial);
+END;
+Explanation:
+
+The program calculates the factorial of a given number num (in this case, 5).
+The FOR loop multiplies the factorial variable by each number from 1 to num.
+The result is printed using DBMS_OUTPUT.PUT_LINE.
+e. Write a MongoDB Query to Perform Update Operation in Library Management
+Assuming you have a books collection in your library_management database and you want to update a specific book's details (for example, updating the author and availability), you can use the following MongoDB update query:
+
+js
+Copy code
+use library_management;  // Switch to the library_management database
+
+// Update the author and availability of a book with a specific book_id
+db.books.updateOne(
+    { book_id: 12345 },  // Condition to find the book with book_id = 12345
+    {
+        $set: {
+            author: "New Author Name",  // New author name
+            availability: "Available"   // Update the availability status
+        }
+    }
+);
+Explanation:
+
+updateOne: This method updates a single document in the collection.
+{ book_id: 12345 }: The filter condition to find the book with book_id equal to 12345.
+$set: This operator is used to set the values of the fields that we want to update (in this case, author and availability).
+The update will change the author to "New Author Name" and the availability to "Available" for the book with book_id equal to 12345.
+You can also update multiple documents using updateMany if you need to apply changes to more than one document.
+
+
+4/
+. Create a View Called EMPLOYEE_VU
+To create the view EMPLOYEE_VU based on the employee numbers, employee names, and department numbers from the EMPLOYEES table, and change the heading for the employee name to EMPLOYEE, you would use the following SQL command:
+
+sql
+Copy code
+CREATE VIEW EMPLOYEE_VU AS
+SELECT Employee_id, 
+       First_Name || ' ' || Last_Name AS EMPLOYEE, 
+       Department_id
+FROM EMPLOYEES;
+Explanation:
+
+This SQL statement creates a view called EMPLOYEE_VU.
+It combines the First_Name and Last_Name columns using the || operator (concatenation in SQL) and renames the column as EMPLOYEE.
+The Employee_id and Department_id columns are also selected.
+b. Display the Contents of the EMPLOYEES_VU View
+To display the contents of the EMPLOYEE_VU view, you can use the SELECT statement:
+
+sql
+Copy code
+SELECT * FROM EMPLOYEE_VU;
+Explanation:
+
+This query will retrieve all the data from the EMPLOYEE_VU view.
+c. Display All Employee Names and Department
+Using the EMPLOYEE_VU view, to display all employee names and their respective department numbers, you would write the following query:
+
+sql
+Copy code
+SELECT EMPLOYEE, Department_id
+FROM EMPLOYEE_VU;
+Explanation:
+
+The query selects the EMPLOYEE (concatenated First_Name and Last_Name) and Department_id from the EMPLOYEE_VU view.
+d. PL/SQL Program to Update the Salary by 5000 for Job = 'Lecturer' and Check for Implicit Cursors
+In this PL/SQL program, we will:
+
+Update the salary by 5000 for employees whose job is 'Lecturer'.
+Use implicit cursors to check if the updates were made.
+Display the updated employee data.
+Here is the PL/SQL program:
+
+plsql
+Copy code
+DECLARE
+    -- Variable to hold the number of rows updated
+    rows_updated NUMBER;
+BEGIN
+    -- Update the salary for employees with the job 'Lecturer'
+    UPDATE EMPLOYEES
+    SET Salary = Salary + 5000
+    WHERE Job_id = 'Lecturer';
+
+    -- Implicit cursor to get the number of updated rows
+    rows_updated := SQL%ROWCOUNT;
+
+    -- Display the number of rows updated
+    DBMS_OUTPUT.PUT_LINE(rows_updated || ' rows updated.');
+
+    -- Display the updated employee data
+    FOR emp IN (SELECT Employee_id, First_Name, Last_Name, Salary FROM EMPLOYEES WHERE Job_id = 'Lecturer') LOOP
+        DBMS_OUTPUT.PUT_LINE('Employee: ' || emp.First_Name || ' ' || emp.Last_Name || ', New Salary: ' || emp.Salary);
+    END LOOP;
+END;
+Explanation:
+
+The UPDATE statement updates the salary by 5000 for employees with the job Lecturer.
+The SQL%ROWCOUNT attribute is used to get the number of rows affected by the UPDATE statement, which is stored in the variable rows_updated.
+The DBMS_OUTPUT.PUT_LINE procedure is used to print the number of rows updated.
+The FOR loop fetches and displays the updated employee data (name and salary) for employees who are "Lecturers".
+e. MongoDB Query to Perform Insert and Update Operations in Railway Reservation System
+Assuming you have a trains collection in a railway_reservation database, and the train data contains train_id, train_name, destination, and available_seats, let's proceed with the operations.
+
+1. Insert Operation (Adding a new train record):
+js
+Copy code
+use railway_reservation;  // Switch to the railway_reservation database
+
+db.trains.insertOne({
+    train_id: 101,
+    train_name: "Express 101",
+    destination: "New York",
+    available_seats: 150
+});
+Explanation:
+
+This command inserts a new document into the trains collection with the train_id, train_name, destination, and available_seats.
+2. Update Operation (Updating the available seats for a train):
+To update the number of available seats for the train with train_id = 101:
+
+js
+Copy code
+db.trains.updateOne(
+    { train_id: 101 },  // Condition to find the train with train_id = 101
+    { $set: { available_seats: 120 } }  // Update the available_seats
+);
+Explanation:
+
+The updateOne method is used to update a single document in the trains collection.
+{ train_id: 101 } is the filter condition to find the train with train_id equal to 101.
+The $set operator updates the available_seats to 120.
+3. Update Operation (Increasing available seats based on a condition):
+If you want to update the available seats for all trains that have less than 100 available seats:
+
+js
+Copy code
+db.trains.updateMany(
+    { available_seats: { $lt: 100 } },  // Condition to find trains with less than 100 available seats
+    { $inc: { available_seats: 50 } }  // Increment available_seats by 50
+);
+Explanation:
+
+The updateMany method is used to update multiple documents.
+{ available_seats: { $lt: 100 } } is the condition to find trains with less than 100 available seats.
+The $inc operator increases the available_seats by 50 for each matching train.
+
+5.
+a. List of Department IDs for Departments That Do Not Contain the Job ID ST_CLERK Using Set Operators
+In this case, you need to create a report that lists the department IDs for departments that do not contain the job ID ST_CLERK. You can achieve this using set operators. We can use a combination of MINUS to exclude the department IDs that contain ST_CLERK from the total list of department IDs.
+
+Here is how to write this query using set operators:
+
+sql
+Copy code
+-- Get department IDs that contain the job ID 'ST_CLERK'
+SELECT DISTINCT Department_id
+FROM EMPLOYEES
+WHERE Job_id = 'ST_CLERK'
+
+MINUS
+
+-- Get all department IDs
+SELECT DISTINCT Department_id
+FROM EMPLOYEES;
+Explanation:
+
+The first part of the query (SELECT DISTINCT Department_id FROM EMPLOYEES WHERE Job_id = 'ST_CLERK') returns the department IDs that contain at least one employee with the job ID ST_CLERK.
+The second part of the query (SELECT DISTINCT Department_id FROM EMPLOYEES) retrieves all department IDs from the EMPLOYEES table.
+The MINUS operator ensures that we subtract the departments that contain ST_CLERK from the full list of departments, leaving us with the departments that do not contain ST_CLERK.
+b. Report of Employees Whose Current Job Title Matches Their Initial Job Title
+To create a report that lists employees whose current job title matches the job title they had when they were first hired, you'll need to compare the current job with the original job.
+
+Typically, the original job title for an employee would be stored in a separate column or table (like original_job_id), but if we assume that the table contains the current job (Job_id) and the initial job (Original_Job_id) columns for employees, the query would look something like this:
+
+sql
+Copy code
+SELECT Employee_id, Job_id
+FROM EMPLOYEES
+WHERE Job_id = Original_Job_id;
+Explanation:
+
+This query selects the Employee_id and Job_id from the EMPLOYEES table where the current Job_id matches the Original_Job_id.
+If the table does not have a column like Original_Job_id, you would need to track historical job information (perhaps in a separate table like EMPLOYEE_HISTORY) or modify the schema to store the original job title.
+c. PL/SQL Code to Create a Trigger That Captures Changes and Logs Them in an Audit Table
+To design a trigger that logs changes made to specific columns, you'll need to create an AFTER UPDATE trigger that captures changes and inserts them into an audit table.
+
+Assuming the table being audited is called EMPLOYEES and we want to track changes in the Salary and Job_id columns, and log the changes in an AUDIT_LOG table, here's the PL/SQL trigger code:
+
+1. Create the Audit Table
+sql
+Copy code
+CREATE TABLE AUDIT_LOG (
+    audit_id NUMBER PRIMARY KEY,
+    employee_id NUMBER,
+    old_salary NUMBER(8,2),
+    new_salary NUMBER(8,2),
+    old_job_id VARCHAR2(10),
+    new_job_id VARCHAR2(10),
+    change_timestamp TIMESTAMP,
+    changed_by VARCHAR2(50)
+);
+2. Create the Trigger
+plsql
+Copy code
+CREATE OR REPLACE TRIGGER EMPLOYEE_UPDATE_AUDIT
+AFTER UPDATE ON EMPLOYEES
+FOR EACH ROW
+BEGIN
+    -- Check if the salary or job_id column has been updated
+    IF :OLD.Salary != :NEW.Salary OR :OLD.Job_id != :NEW.Job_id THEN
+        INSERT INTO AUDIT_LOG (audit_id, employee_id, old_salary, new_salary, old_job_id, new_job_id, change_timestamp, changed_by)
+        VALUES (audit_log_seq.NEXTVAL,  -- Assuming you have an audit_log_seq sequence for generating audit_id
+                :OLD.Employee_id,
+                :OLD.Salary,
+                :NEW.Salary,
+                :OLD.Job_id,
+                :NEW.Job_id,
+                SYSDATE,  -- Timestamp of change
+                USER);    -- The user who made the change
+    END IF;
+END;
+Explanation:
+
+This trigger is defined to fire AFTER UPDATE on the EMPLOYEES table, and it tracks changes in the Salary and Job_id columns.
+If either the Salary or Job_id column is updated, the trigger inserts a record into the AUDIT_LOG table.
+:OLD and :NEW refer to the old and new values of the columns in the row being updated.
+The audit record includes the old and new values of the Salary and Job_id, the timestamp of the change (SYSDATE), and the user who made the change (USER).
+d. MongoDB Query to Perform Insert and Update Operations in Movie Management
+Let's assume the movies collection is in the movie_management database, and each movie has the following fields: movie_id, title, genre, release_year, and rating.
+
+1. Insert Operation (Add a new movie record):
+js
+Copy code
+use movie_management;  // Switch to the movie_management database
+
+db.movies.insertOne({
+    movie_id: 1,
+    title: "The Shawshank Redemption",
+    genre: "Drama",
+    release_year: 1994,
+    rating: 9.3
+});
+Explanation:
+
+This query inserts a new document into the movies collection with the specified movie_id, title, genre, release_year, and rating.
+2. Update Operation (Update a movie's rating):
+To update the rating of a movie (e.g., the movie with movie_id = 1), you can use the updateOne method:
+
+js
+Copy code
+db.movies.updateOne(
+    { movie_id: 1 },  // Condition to find the movie with movie_id = 1
+    { $set: { rating: 9.5 } }  // Update the rating
+);
+Explanation:
+
+The updateOne method is used to update a single document.
+The filter { movie_id: 1 } finds the movie with movie_id = 1.
+The $set operator updates the rating field to 9.5.
+3. Update Operation (Increase rating for all movies in a particular genre):
+To increase the rating for all movies in the Drama genre by 0.2:
+
+js
+Copy code
+db.movies.updateMany(
+    { genre: "Drama" },  // Condition to find movies in the Drama genre
+    { $inc: { rating: 0.2 } }  // Increment the rating by 0.2
+);
+Explanation:
+
+The updateMany method updates all documents that match the condition.
+{ genre: "Drama" } filters movies that belong to the Drama genre.
+The $inc operator increases the rating by 0.2 for each matching movie.
+
+6.
+a. Create a Unique Listing of All Jobs in Department 80 Including the Location of the Department
+To create a unique listing of all jobs in department 80, along with the location of the department, we would need to join the EMPLOYEES table (which holds job details) with the DEPARTMENTS table (which contains department details including location).
+
+Here is the query:
+
+sql
+Copy code
+SELECT DISTINCT e.Job_id, d.Location
+FROM EMPLOYEES e
+JOIN DEPARTMENTS d ON e.Department_id = d.Department_id
+WHERE e.Department_id = 80;
+Explanation:
+
+SELECT DISTINCT ensures that the jobs are listed without duplicates.
+e.Job_id retrieves the job ID from the EMPLOYEES table.
+d.Location retrieves the department location from the DEPARTMENTS table.
+The JOIN clause links the two tables by matching Department_id from EMPLOYEES and DEPARTMENTS.
+The WHERE e.Department_id = 80 filters the records to only include employees in department 80.
+b. Query to Display the Employee Last Name, Department Name, Location ID, and City of All Employees Who Earn a Commission
+We need to select employees who earn a commission, and for that, we’ll need to join the EMPLOYEES table (which contains commission details) with the DEPARTMENTS table (for the department name and location), and possibly another table (such as LOCATIONS) for the city.
+
+Here is the query:
+
+sql
+Copy code
+SELECT e.Last_name, d.Department_name, d.Location_id, l.City
+FROM EMPLOYEES e
+JOIN DEPARTMENTS d ON e.Department_id = d.Department_id
+JOIN LOCATIONS l ON d.Location_id = l.Location_id
+WHERE e.Commission_pct IS NOT NULL;
+Explanation:
+
+e.Last_name gives the employee's last name.
+d.Department_name gives the name of the department.
+d.Location_id gives the location ID of the department.
+l.City gives the city associated with the location ID.
+The JOIN clauses link the EMPLOYEES, DEPARTMENTS, and LOCATIONS tables.
+The WHERE e.Commission_pct IS NOT NULL condition filters employees who have a non-null commission percentage, indicating that they earn a commission.
+c. Query to Display the Name and Hire Date of Any Employee Hired After Employee "Davies"
+To find employees hired after "Davies," we need to use a subquery that gets the hire date of the employee with the last name "Davies," and then use that date to filter employees hired later.
+
+Here is the query:
+
+sql
+Copy code
+SELECT e.First_name || ' ' || e.Last_name AS Employee_name, e.Hire_date
+FROM EMPLOYEES e
+WHERE e.Hire_date > (SELECT Hire_date FROM EMPLOYEES WHERE Last_name = 'Davies');
+Explanation:
+
+e.First_name || ' ' || e.Last_name AS Employee_name combines the first and last names to display the full name of the employee.
+e.Hire_date retrieves the hire date of the employee.
+The subquery (SELECT Hire_date FROM EMPLOYEES WHERE Last_name = 'Davies') fetches the hire date of the employee with the last name "Davies."
+The WHERE e.Hire_date > condition filters employees whose hire date is after Davies' hire date.
+d. PL/SQL Program to Find the Greatest of Two Numbers
+To write a PL/SQL program that finds the greatest of two numbers, we can use a simple IF-ELSE condition.
+
+Here is the PL/SQL code:
+
+plsql
+Copy code
+DECLARE
+    num1 NUMBER := 10;  -- First number (example)
+    num2 NUMBER := 20;  -- Second number (example)
+    greatest NUMBER;    -- Variable to hold the greatest number
+BEGIN
+    IF num1 > num2 THEN
+        greatest := num1;
+    ELSE
+        greatest := num2;
+    END IF;
+
+    -- Output the result
+    DBMS_OUTPUT.PUT_LINE('The greatest number is: ' || greatest);
+END;
+Explanation:
+
+The DECLARE block defines two numbers num1 and num2, and a variable greatest to store the result.
+The IF-ELSE block compares the two numbers and assigns the greater number to greatest.
+The DBMS_OUTPUT.PUT_LINE statement prints the result.
+e. MongoDB Query to Perform Insert and Update Operations in Railway Reservation System
+Let’s assume we have a trains collection in the railway_reservation database. Each train document contains the following fields: train_id, train_name, destination, available_seats, and departure_time.
+
+1. Insert Operation (Add a new train):
+js
+Copy code
+use railway_reservation;  // Switch to the railway_reservation database
+
+db.trains.insertOne({
+    train_id: 101,
+    train_name: "Express 101",
+    destination: "New York",
+    available_seats: 150,
+    departure_time: ISODate("2024-11-10T09:00:00Z")
+});
+Explanation:
+
+This query inserts a new document into the trains collection, specifying details like train_id, train_name, destination, available_seats, and departure_time.
+2. Update Operation (Update the available seats for a specific train):
+To update the available seats for a train with train_id = 101, use the updateOne method:
+
+js
+Copy code
+db.trains.updateOne(
+    { train_id: 101 },  // Condition to find the train with train_id = 101
+    { $set: { available_seats: 120 } }  // Update the available_seats to 120
+);
+Explanation:
+
+updateOne finds the train with train_id = 101 and updates the available_seats field to 120.
+3. Update Operation (Increase available seats for all trains traveling to a specific destination):
+To increase the available seats for all trains traveling to "New York" by 50:
+
+js
+Copy code
+db.trains.updateMany(
+    { destination: "New York" },  // Condition to find all trains with destination 'New York'
+    { $inc: { available_seats: 50 } }  // Increase the available_seats by 50
+);
+
+7.
+a. Create the Tables stu_details and mark_details
+Here are the SQL statements to create the required tables:
+
+1. Create stu_details Table
+sql
+Copy code
+CREATE TABLE stu_details (
+    reg_no NUMBER PRIMARY KEY,
+    stu_name VARCHAR2(100),
+    DOB DATE,
+    address VARCHAR2(255),
+    city VARCHAR2(50)
+);
+Explanation:
+
+reg_no is the primary key for the student registration number.
+stu_name stores the name of the student.
+DOB stores the date of birth.
+address and city store the address and city of the student.
+2. Create mark_details Table
+sql
+Copy code
+CREATE TABLE mark_details (
+    reg_no NUMBER PRIMARY KEY,
+    mark1 NUMBER(5,2),
+    mark2 NUMBER(5,2),
+    mark3 NUMBER(5,2),
+    total NUMBER(5,2)
+);
+Explanation:
+
+reg_no is the primary key here as well, which will be linked with stu_details.
+mark1, mark2, and mark3 store the marks of the student in three subjects.
+total stores the total marks for the student.
+(i) Find the Name of the Student Whose reg_no is ‘107’
+Here is the SQL query to find the student's name for reg_no 107:
+
+sql
+Copy code
+SELECT stu_name
+FROM stu_details
+WHERE reg_no = 107;
+Explanation:
+
+This query selects the stu_name from the stu_details table where the reg_no is 107.
+(ii) Display the Details of a Particular Student Whose Name is ‘MATHU’
+To get the details of the student whose name is "MATHU," the query would be:
+
+sql
+Copy code
+SELECT *
+FROM stu_details
+WHERE stu_name = 'MATHU';
+Explanation:
+
+This query retrieves all details (columns) from the stu_details table where the student's name is 'MATHU'.
+(iii) Rename the mark_details Table as academics
+To rename the mark_details table to academics, use the RENAME statement in SQL:
+
+sql
+Copy code
+RENAME mark_details TO academics;
+Explanation:
+
+The RENAME statement changes the name of the table mark_details to academics.
+(iv) PL/SQL Program to Check Whether a Given Number is Prime or Not
+Here is a PL/SQL program that checks whether a number is prime:
+
+plsql
+Copy code
+DECLARE
+    num NUMBER := 29;  -- Input number to check
+    is_prime BOOLEAN := TRUE;
+    i NUMBER;
+BEGIN
+    IF num <= 1 THEN
+        is_prime := FALSE;  -- Numbers less than or equal to 1 are not prime
+    ELSE
+        FOR i IN 2..TRUNC(SQRT(num)) LOOP
+            IF MOD(num, i) = 0 THEN
+                is_prime := FALSE;
+                EXIT;
+            END IF;
+        END LOOP;
+    END IF;
+
+    IF is_prime THEN
+        DBMS_OUTPUT.PUT_LINE(num || ' is a prime number.');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE(num || ' is not a prime number.');
+    END IF;
+END;
+Explanation:
+
+num is the input number that we want to check.
+is_prime is a boolean variable that assumes the number is prime by default.
+The FOR loop checks if any number between 2 and the square root of num divides num evenly (i.e., no remainder). If it does, the number is not prime.
+The program uses DBMS_OUTPUT.PUT_LINE to print the result.
+(v) MongoDB Query to Perform Insert and Update Operations in Banking Application
+Assuming we have a customers collection in a banking database, where each document represents a bank customer with fields like customer_id, name, balance, and account_type.
+
+1. Insert Operation (Add a new customer record):
+js
+Copy code
+use banking;  // Switch to the banking database
+
+db.customers.insertOne({
+    customer_id: 1001,
+    name: "John Doe",
+    balance: 5000,
+    account_type: "Savings"
+});
+Explanation:
+
+This command inserts a new customer into the customers collection with customer_id, name, balance, and account_type.
+2. Update Operation (Update the balance for a particular customer):
+To update the balance of a customer (e.g., customer_id = 1001), you can use the updateOne method:
+
+js
+Copy code
+db.customers.updateOne(
+    { customer_id: 1001 },  // Find the customer with customer_id = 1001
+    { $set: { balance: 6000 } }  // Update the balance to 6000
+);
+Explanation:
+
+updateOne updates the document for the customer with customer_id = 1001.
+The $set operator is used to set the new value of balance.
+3. Update Operation (Increase balance by 500 for all customers with "Savings" account type):
+js
+Copy code
+db.customers.updateMany(
+    { account_type: "Savings" },  // Find customers with "Savings" account type
+    { $inc: { balance: 500 } }  // Increase the balance by 500
+);
+
+8.
+a. Create the Tables
+stu_details Table:
+sql
+Copy code
+CREATE TABLE stu_details (
+    reg_no NUMBER PRIMARY KEY,
+    stu_name VARCHAR2(100),
+    DOB DATE,
+    address VARCHAR2(255),
+    city VARCHAR2(50)
+);
+Explanation:
+
+reg_no: Student's registration number (Primary Key).
+stu_name: Student's name.
+DOB: Date of birth.
+address: Student's address.
+city: City where the student lives.
+mark_details Table:
+sql
+Copy code
+CREATE TABLE mark_details (
+    reg_no NUMBER PRIMARY KEY,
+    mark1 NUMBER(5,2),
+    mark2 NUMBER(5,2),
+    mark3 NUMBER(5,2),
+    total NUMBER(5,2),
+    CONSTRAINT fk_reg_no FOREIGN KEY (reg_no) REFERENCES stu_details (reg_no)
+);
+Explanation:
+
+reg_no: Student's registration number (Foreign Key from stu_details).
+mark1, mark2, mark3: Marks for three subjects.
+total: Total marks calculated for the student.
+The foreign key fk_reg_no ensures referential integrity between mark_details and stu_details.
+(i) Find the Name of All Students Along with Their Total Marks
+To find the name of all students along with their total marks, you can join the stu_details table and the mark_details table on reg_no:
+
+sql
+Copy code
+SELECT s.stu_name, m.total
+FROM stu_details s
+JOIN mark_details m ON s.reg_no = m.reg_no;
+Explanation:
+
+This query retrieves the stu_name (student's name) from the stu_details table and the total marks from the mark_details table.
+The JOIN clause matches records where the reg_no is the same in both tables.
+(ii) Change mark1 from 59 to 78 and Alter the total for a Particular Student
+To update mark1 and the total marks for a particular student (for example, reg_no = 101), you can use the following queries:
+
+Update mark1 from 59 to 78:
+sql
+Copy code
+UPDATE mark_details
+SET mark1 = 78
+WHERE mark1 = 59 AND reg_no = 101;
+Explanation:
+
+This query updates the mark1 for the student with reg_no = 101 where the current value of mark1 is 59.
+Update the total for the student:
+sql
+Copy code
+UPDATE mark_details
+SET total = mark1 + mark2 + mark3
+WHERE reg_no = 101;
+Explanation:
+
+This query recalculates the total marks by adding mark1, mark2, and mark3 for the student with reg_no = 101.
+(iii) Delete All Records and Its Memory Space from the student Table
+To delete all records from the stu_details table and free the memory space, use the TRUNCATE statement:
+
+sql
+Copy code
+TRUNCATE TABLE stu_details;
+Explanation:
+
+The TRUNCATE statement removes all rows from the stu_details table and frees up the space used by the table.
+It is more efficient than DELETE as it does not generate undo logs for each row deletion and doesn't fire any triggers.
+(iv) Write a PL/SQL Block to Display the Employee ID and Employee Name Where Department Number is 11 Using Explicit Cursors
+In this case, we'll use an explicit cursor to retrieve and display the employee ID and name where the department number is 11.
+
+plsql
+Copy code
+DECLARE
+    CURSOR emp_cursor IS
+        SELECT employee_id, first_name || ' ' || last_name AS employee_name
+        FROM employees
+        WHERE department_id = 11;
+    
+    emp_id employees.employee_id%TYPE;
+    emp_name employees.first_name%TYPE;
+BEGIN
+    OPEN emp_cursor;  -- Open the cursor
+
+    LOOP
+        FETCH emp_cursor INTO emp_id, emp_name;  -- Fetch employee data into variables
+        EXIT WHEN emp_cursor%NOTFOUND;  -- Exit when no more rows are found
+
+        -- Display the employee details
+        DBMS_OUTPUT.PUT_LINE('Employee ID: ' || emp_id || ', Employee Name: ' || emp_name);
+    END LOOP;
+
+    CLOSE emp_cursor;  -- Close the cursor
+END;
+Explanation:
+
+We declare an explicit cursor emp_cursor to fetch employee_id and employee_name for employees in department 11.
+The OPEN statement opens the cursor, and the FETCH statement retrieves each row into emp_id and emp_name.
+The loop continues fetching until there are no more rows (%NOTFOUND).
+The DBMS_OUTPUT.PUT_LINE is used to print the employee details.
+Finally, the cursor is closed using CLOSE.
+(v) MongoDB Query to Perform Insert and Update Operations in a Restaurant Menu Display and Ordering System
+Assuming we have a collection called menu_items in a database called restaurant_system where each document represents an item in the restaurant's menu.
+
+1. Insert Operation (Add a new menu item):
+js
+Copy code
+use restaurant_system;  // Switch to the restaurant_system database
+
+db.menu_items.insertOne({
+    item_id: 101,
+    name: "Grilled Chicken",
+    description: "Juicy grilled chicken served with vegetables.",
+    price: 15.99,
+    category: "Main Course",
+    available: true
+});
+Explanation:
+
+This command inserts a new document into the menu_items collection, adding a new menu item with fields like item_id, name, description, price, category, and available.
+2. Update Operation (Update the price of a particular menu item):
+To update the price of a specific item (e.g., item_id = 101):
+
+js
+Copy code
+db.menu_items.updateOne(
+    { item_id: 101 },  // Condition to find the item with item_id = 101
+    { $set: { price: 17.99 } }  // Update the price to 17.99
+);
+Explanation:
+
+The updateOne method finds the document with item_id = 101 and updates the price to 17.99.
+3. Update Operation (Mark an item as unavailable):
+To mark an item as unavailable (e.g., item_id = 101):
+
+js
+Copy code
+db.menu_items.updateOne(
+    { item_id: 101 },  // Find the item with item_id = 101
+    { $set: { available: false } }  // Set the 'available' field to false
+);
+
+9.
+1. Create book_det Table
+This table stores the book details, including the reference, name, author, volume, and edition.
+
+sql
+Copy code
+CREATE TABLE book_det (
+    book_ref NUMBER PRIMARY KEY,
+    book_name VARCHAR2(100),
+    author_name VARCHAR2(100),
+    volume NUMBER,
+    edition VARCHAR2(50)
+);
+Explanation:
+
+book_ref: The book reference number (Primary Key).
+book_name: The name of the book.
+author_name: The name of the book's author.
+volume: The volume of the book.
+edition: The edition of the book.
+2. Create book_cost Table
+This table stores the price and quantity for each book.
+
+sql
+Copy code
+CREATE TABLE book_cost (
+    book_id NUMBER PRIMARY KEY,
+    price NUMBER(8,2),
+    quantity NUMBER
+);
+Explanation:
+
+book_id: The book ID (Primary Key, linked to book_ref in book_det).
+price: The price of the book.
+quantity: The number of copies of the book available.
+(i) Write a Query to Find the Minimum Quantity of Books Available
+To find the minimum quantity of books available, use the following query:
+
+sql
+Copy code
+SELECT MIN(quantity) AS min_quantity
+FROM book_cost;
+Explanation:
+
+The MIN() function returns the minimum value in the quantity column of the book_cost table.
+(ii) Write a Query to Find the Total Price of All the Books Present in the Table
+To find the total price of all the books (i.e., the sum of price * quantity for each book), use the following query:
+
+sql
+Copy code
+SELECT SUM(price * quantity) AS total_price
+FROM book_cost;
+Explanation:
+
+The SUM() function calculates the total value by multiplying price by quantity for each row and adding them together.
+(iii) Write a Query to Find the Average Amount of All the Books
+To find the average price of all the books, you can use the AVG() function:
+
+sql
+Copy code
+SELECT AVG(price) AS average_price
+FROM book_cost;
+Explanation:
+
+The AVG() function calculates the average value of the price column in the book_cost table.
+(iv) Write a PL/SQL Code to Create a Trigger that Checks for Duplicate Values in a Specific Column and Raises an Exception if Found
+Here’s a PL/SQL trigger that will check for duplicate book references in the book_det table (assuming book_ref should be unique) and raise an exception if a duplicate is found:
+
+plsql
+Copy code
+CREATE OR REPLACE TRIGGER check_duplicate_book_ref
+BEFORE INSERT ON book_det
+FOR EACH ROW
+BEGIN
+    -- Check if the book_ref already exists in the table
+    DECLARE
+        v_count NUMBER;
+    BEGIN
+        SELECT COUNT(*) INTO v_count
+        FROM book_det
+        WHERE book_ref = :new.book_ref;
+
+        -- If duplicate is found, raise an exception
+        IF v_count > 0 THEN
+            RAISE_APPLICATION_ERROR(-20001, 'Duplicate book reference found: ' || :new.book_ref);
+        END IF;
+    END;
+END;
+/
+Explanation:
+
+The trigger check_duplicate_book_ref is set to run BEFORE INSERT on the book_det table.
+It checks if the book_ref being inserted already exists in the table using a SELECT COUNT(*) query.
+If the count is greater than 0 (i.e., the book_ref already exists), the RAISE_APPLICATION_ERROR raises a custom error with a message.
+(v) Write a MongoDB Query to Perform Insert, Update in Blood Donation Management
+Assume we have a donors collection in a MongoDB database called blood_donation_management with documents that represent blood donors. Each document includes fields like donor_id, name, blood_type, and donation_date.
+
+1. Insert Operation (Add a new donor):
+js
+Copy code
+use blood_donation_management;  // Switch to the blood_donation_management database
+
+db.donors.insertOne({
+    donor_id: 1001,
+    name: "John Doe",
+    blood_type: "O+",
+    donation_date: new Date("2024-10-01"),
+    contact_number: "123-456-7890"
+});
+Explanation:
+
+This command inserts a new document into the donors collection, adding a donor's details including donor_id, name, blood_type, donation_date, and contact_number.
+2. Update Operation (Update a donor's contact number):
+To update the contact number for a donor with donor_id = 1001:
+
+js
+Copy code
+db.donors.updateOne(
+    { donor_id: 1001 },  // Condition to find the donor with donor_id = 1001
+    { $set: { contact_number: "987-654-3210" } }  // Update the contact_number field
+);
+Explanation:
+
+The updateOne method is used to find the donor document with donor_id = 1001 and update the contact_number to a new value.
+3. Update Operation (Update the blood type for a particular donor):
+To update the blood type for a donor with donor_id = 1001:
+
+js
+Copy code
+db.donors.updateOne(
+    { donor_id: 1001 },  // Find the donor with donor_id = 1001
+    { $set: { blood_type: "A+" } }  // Update the blood type to "A+"
+);
+
+10.
+Schema Overview
+Given the relations for the order processing system:
+
+CUST_ORDER: This table contains customer order details.
+Columns: custno, cname, city, orderno, odate, custno, ord_amt
+ORDER_ITEM: This table contains items for each order.
+Columns: orderno, itemno, quantity, unitprice, warehouseno, city, ship_date
+(i) Produce a Listing: custname, No_of_orders, Avg_order_amount
+To produce a listing that shows the customer's name, the number of orders they made, and the average order amount, we can use the CUST_ORDER table to group the orders by custno and calculate the count of orders and the average order amount for each customer.
+
+sql
+Copy code
+SELECT cname AS custname,
+       COUNT(orderno) AS No_of_orders,
+       AVG(ord_amt) AS Avg_order_amount
+FROM CUST_ORDER
+GROUP BY cname;
+Explanation:
+
+We are selecting the cname (customer name) from the CUST_ORDER table.
+The COUNT(orderno) will give the total number of orders per customer.
+The AVG(ord_amt) will give the average order amount per customer.
+GROUP BY is used to group the results by customer name (cname).
+(ii) List the orderno for Orders that Were Shipped from All Warehouses in a Specific City
+To list the orders that were shipped from all the warehouses in a specific city, you can use the ORDER_ITEM table, filter by city, and check for the orders that were shipped from all the warehouses in that city.
+
+sql
+Copy code
+SELECT orderno
+FROM ORDER_ITEM
+WHERE city = 'SpecificCity'  -- Replace 'SpecificCity' with the desired city name
+GROUP BY orderno
+HAVING COUNT(DISTINCT warehouseno) = (SELECT COUNT(DISTINCT warehouseno)
+                                       FROM ORDER_ITEM
+                                       WHERE city = 'SpecificCity');
+Explanation:
+
+The HAVING clause ensures that the orderno appears only when the count of distinct warehouses from which it was shipped matches the total number of warehouses in the specified city.
+The inner query returns the total number of distinct warehouses in the specified city.
+(iii) Deletion of an Item from the ITEM Table and Handling the Rows in ORDER_ITEM
+Assume there is an ITEM table with the column itemno, and the goal is to delete an item and handle the associated rows in the ORDER_ITEM table (i.e., remove references to that item). There are a couple of ways to handle this, such as using ON DELETE CASCADE or manually deleting the rows in ORDER_ITEM.
+
+Deleting Item from ITEM and Handling ORDER_ITEM (Using Cascading)
+sql
+Copy code
+ALTER TABLE ORDER_ITEM
+ADD CONSTRAINT fk_itemno
+FOREIGN KEY (itemno) REFERENCES ITEM(itemno)
+ON DELETE CASCADE;
+With the ON DELETE CASCADE option, when an item is deleted from the ITEM table, all related rows in the ORDER_ITEM table will be automatically deleted. After this setup, you can proceed with the deletion:
+
+sql
+Copy code
+DELETE FROM ITEM
+WHERE itemno = 101;  -- Replace 101 with the item number to delete
+Explanation:
+
+The ALTER TABLE command adds a foreign key constraint to the ORDER_ITEM table that references the ITEM table.
+The ON DELETE CASCADE option ensures that when an item is deleted from ITEM, all associated records in ORDER_ITEM are deleted automatically.
+Deleting Item from ITEM and Manually Handling ORDER_ITEM
+If you do not use ON DELETE CASCADE, you can first manually delete the rows in the ORDER_ITEM table that reference the item and then delete the item from the ITEM table.
+
+sql
+Copy code
+DELETE FROM ORDER_ITEM
+WHERE itemno = 101;  -- Replace 101 with the item number to delete
+
+DELETE FROM ITEM
+WHERE itemno = 101;
+Explanation:
+
+This query deletes the rows in ORDER_ITEM first, which reference the item to be deleted.
+Then it deletes the item from the ITEM table.
+(iv) Write a PL/SQL Program to Calculate the Factorial of a Given Number
+Here is a PL/SQL program to calculate the factorial of a given number using a recursive approach.
+
+plsql
+Copy code
+DECLARE
+    n NUMBER := 5;  -- Change the number to calculate its factorial
+    result NUMBER := 1;
+    
+    FUNCTION factorial (num IN NUMBER) RETURN NUMBER IS
+    BEGIN
+        IF num = 0 OR num = 1 THEN
+            RETURN 1;
+        ELSE
+            RETURN num * factorial(num - 1);  -- Recursive call
+        END IF;
+    END factorial;
+
+BEGIN
+    result := factorial(n);  -- Call the factorial function
+    DBMS_OUTPUT.PUT_LINE('The factorial of ' || n || ' is ' || result);
+END;
+/
+Explanation:
+
+A factorial function is defined inside the PL/SQL block. The function is recursive, calling itself until the base case (num = 0 or 1) is reached.
+The DBMS_OUTPUT.PUT_LINE displays the result of the factorial calculation.
+(v) Write a MongoDB Query to Perform Insert, Update, and Include PL/SQL Function in a Club Membership Database System
+Let's assume we have a members collection in MongoDB with documents representing club members. Each member document has fields like member_id, name, membership_type, and join_date.
+
+1. Insert Operation (Add a new member):
+js
+Copy code
+use club_membership;  // Switch to the club_membership database
+
+db.members.insertOne({
+    member_id: 1001,
+    name: "John Doe",
+    membership_type: "Premium",
+    join_date: new Date("2024-01-01"),
+    contact_number: "123-456-7890"
+});
+Explanation:
+
+This command inserts a new document into the members collection with details about the member, such as member_id, name, membership_type, join_date, and contact_number.
+2. Update Operation (Update membership type for a particular member):
+To update the membership type for a member with member_id = 1001:
+
+js
+Copy code
+db.members.updateOne(
+    { member_id: 1001 },  // Find the member with member_id = 1001
+    { $set: { membership_type: "Gold" } }  // Change the membership type to "Gold"
+);
+Explanation:
+
+The updateOne method finds the member with member_id = 1001 and updates the membership_type field to "Gold".
+3. Include PL/SQL Function for Membership Fee Calculation in Club System
+To calculate the membership fee for a particular member based on their membership_type, you could write a PL/SQL function that calculates the fee. Here's an example PL/SQL function to calculate the fee based on membership type:
+
+plsql
+Copy code
+CREATE OR REPLACE FUNCTION get_membership_fee(membership_type IN VARCHAR2) 
+RETURN NUMBER IS
+    fee NUMBER;
+BEGIN
+    IF membership_type = 'Premium' THEN
+        fee := 500;
+    ELSIF membership_type = 'Gold' THEN
+        fee := 300;
+    ELSE
+        fee := 100;  -- Default for other membership types
+    END IF;
+    RETURN fee;
+END;
+/
+
+11.
+(i) Create the Tables with Primary and Foreign Keys and Insert Data
+1. Create EMPLOYEE Table
+sql
+Copy code
+CREATE TABLE EMPLOYEE (
+    empno NUMBER PRIMARY KEY,
+    ename VARCHAR2(50),
+    designation VARCHAR2(50),
+    manager NUMBER,
+    hiredate DATE,
+    salary NUMBER(8, 2),
+    commission NUMBER(8, 2),
+    deptno NUMBER,
+    FOREIGN KEY (deptno) REFERENCES DEPARTMENT(deptno),
+    FOREIGN KEY (manager) REFERENCES EMPLOYEE(empno)
+);
+Primary Key: empno (Employee number).
+Foreign Keys:
+deptno references DEPARTMENT(deptno) (Department number).
+manager references EMPLOYEE(empno) (Manager is also an employee, hence self-referencing).
+2. Create DEPARTMENT Table
+sql
+Copy code
+CREATE TABLE DEPARTMENT (
+    deptno NUMBER PRIMARY KEY,
+    dname VARCHAR2(50),
+    location VARCHAR2(50)
+);
+Primary Key: deptno (Department number).
+3. Insert Data into DEPARTMENT Table
+sql
+Copy code
+INSERT INTO DEPARTMENT (deptno, dname, location) VALUES (10, 'SALES', 'New York');
+INSERT INTO DEPARTMENT (deptno, dname, location) VALUES (20, 'HR', 'Chicago');
+INSERT INTO DEPARTMENT (deptno, dname, location) VALUES (30, 'IT', 'San Francisco');
+INSERT INTO DEPARTMENT (deptno, dname, location) VALUES (40, 'FINANCE', 'London');
+INSERT INTO DEPARTMENT (deptno, dname, location) VALUES (50, 'MARKETING', 'Paris');
+4. Insert Data into EMPLOYEE Table
+sql
+Copy code
+INSERT INTO EMPLOYEE (empno, ename, designation, manager, hiredate, salary, commission, deptno) 
+VALUES (101, 'John Doe', 'Sales Manager', NULL, TO_DATE('2020-01-15', 'YYYY-MM-DD'), 80000, 5000, 10);
+
+INSERT INTO EMPLOYEE (empno, ename, designation, manager, hiredate, salary, commission, deptno) 
+VALUES (102, 'Jane Smith', 'Sales Associate', 101, TO_DATE('2021-06-10', 'YYYY-MM-DD'), 50000, 2000, 10);
+
+INSERT INTO EMPLOYEE (empno, ename, designation, manager, hiredate, salary, commission, deptno) 
+VALUES (103, 'Alice Johnson', 'HR Manager', NULL, TO_DATE('2019-09-23', 'YYYY-MM-DD'), 75000, 4000, 20);
+
+INSERT INTO EMPLOYEE (empno, ename, designation, manager, hiredate, salary, commission, deptno) 
+VALUES (104, 'Bob Brown', 'IT Specialist', 101, TO_DATE('2021-07-12', 'YYYY-MM-DD'), 60000, NULL, 30);
+
+INSERT INTO EMPLOYEE (empno, ename, designation, manager, hiredate, salary, commission, deptno) 
+VALUES (105, 'Sarah White', 'Marketing Director', NULL, TO_DATE('2018-03-02', 'YYYY-MM-DD'), 90000, 7000, 50);
+The manager field references the empno of another employee.
+Inserted five tuples into each table.
+(ii) List the Employees of the EMPLOYEE Table in Descending Order of Their Salaries
+To list the employees by salary in descending order, use the following SQL query:
+
+sql
+Copy code
+SELECT * FROM EMPLOYEE
+ORDER BY salary DESC;
+Explanation:
+
+The ORDER BY salary DESC sorts the employees in descending order based on their salary.
+(iii) List the Details of the Highest Paid Employee in the SALES Department
+To find the highest-paid employee in the SALES department, you can join the EMPLOYEE and DEPARTMENT tables and filter by the department name (SALES), ordering by salary in descending order:
+
+sql
+Copy code
+SELECT e.*
+FROM EMPLOYEE e
+JOIN DEPARTMENT d ON e.deptno = d.deptno
+WHERE d.dname = 'SALES'
+ORDER BY e.salary DESC
+FETCH FIRST 1 ROWS ONLY;
+Explanation:
+
+The JOIN ensures that we get employee details along with their department.
+WHERE d.dname = 'SALES' filters for employees in the SALES department.
+ORDER BY e.salary DESC ensures we get the highest-paid employee.
+FETCH FIRST 1 ROWS ONLY limits the result to the top 1 employee.
+(iv) Write a PL/SQL Program to Design a Trigger that Captures Changes Made to Specific Columns and Logs Them in an Audit Table
+Let’s assume we have an EMPLOYEE_AUDIT table that logs changes to the EMPLOYEE table, capturing the empno, ename, salary, and change_date.
+
+1. Create the EMPLOYEE_AUDIT Table
+sql
+Copy code
+CREATE TABLE EMPLOYEE_AUDIT (
+    empno NUMBER,
+    ename VARCHAR2(50),
+    old_salary NUMBER(8, 2),
+    new_salary NUMBER(8, 2),
+    change_date DATE
+);
+2. Create the Trigger
+Now, we create a trigger that will capture changes to the salary column and log the old and new values in the EMPLOYEE_AUDIT table.
+
+plsql
+Copy code
+CREATE OR REPLACE TRIGGER salary_update_trigger
+AFTER UPDATE OF salary ON EMPLOYEE
+FOR EACH ROW
+BEGIN
+    IF :OLD.salary != :NEW.salary THEN
+        INSERT INTO EMPLOYEE_AUDIT (empno, ename, old_salary, new_salary, change_date)
+        VALUES (:OLD.empno, :OLD.ename, :OLD.salary, :NEW.salary, SYSDATE);
+    END IF;
+END;
+/
+Explanation:
+
+The trigger fires AFTER UPDATE on the salary column of the EMPLOYEE table.
+It compares the old and new salary values (:OLD.salary and :NEW.salary).
+If the salary has changed (IF :OLD.salary != :NEW.salary), an entry is inserted into the EMPLOYEE_AUDIT table, capturing the empno, ename, the old and new salary, and the change_date.
+(v) Write a MongoDB Query to Perform Insert, Update and Include PL/SQL Function in a Vegetable Selling Management System
+Let’s assume we have a vegetables collection in MongoDB for a Vegetable Selling Management System. Each document represents a vegetable, with fields like vegetable_id, name, price_per_kg, and quantity_in_stock.
+
+1. Insert Operation (Add a new vegetable):
+js
+Copy code
+use vegetable_selling_management;  // Switch to the vegetable_selling_management database
+
+db.vegetables.insertOne({
+    vegetable_id: 1,
+    name: "Carrot",
+    price_per_kg: 3.5,
+    quantity_in_stock: 100
+});
+Explanation:
+
+This command inserts a new vegetable document into the vegetables collection with the vegetable_id, name, price_per_kg, and quantity_in_stock.
+2. Update Operation (Update price per kg for a particular vegetable):
+To update the price of "Carrot":
+
+js
+Copy code
+db.vegetables.updateOne(
+    { vegetable_id: 1 },  // Find the vegetable with vegetable_id = 1
+    { $set: { price_per_kg: 4.0 } }  // Update the price per kg to 4.0
+);
+Explanation:
+
+The updateOne method finds the vegetable with vegetable_id = 1 and updates the price_per_kg to 4.0.
+3. PL/SQL Function for Discount Calculation
+To calculate a discount on vegetable prices (based on the price), you can write a PL/SQL function that applies a discount:
+
+plsql
+Copy code
+CREATE OR REPLACE FUNCTION calculate_discount(price_in NUMBER) 
+RETURN NUMBER IS
+    discount NUMBER;
+BEGIN
+    IF price_in > 5 THEN
+        discount := price_in * 0.1;  -- 10% discount for price > 5
+    ELSE
+        discount := price_in * 0.05;  -- 5% discount for price <= 5
+    END IF;
+    RETURN discount;
+END;
+
+12.
+(i) Create the Tables with Primary and Foreign Keys and Insert Data
+1. Create DEPARTMENT Table
+sql
+Copy code
+CREATE TABLE DEPARTMENT (
+    deptno NUMBER PRIMARY KEY,
+    dname VARCHAR2(50),
+    location VARCHAR2(50)
+);
+Primary Key: deptno (Department number).
+2. Create EMPLOYEE Table
+sql
+Copy code
+CREATE TABLE EMPLOYEE (
+    empno NUMBER PRIMARY KEY,
+    ename VARCHAR2(50),
+    designation VARCHAR2(50),
+    manager NUMBER,
+    hiredate DATE,
+    salary NUMBER(8, 2),
+    commission NUMBER(8, 2),
+    deptno NUMBER,
+    FOREIGN KEY (deptno) REFERENCES DEPARTMENT(deptno),
+    FOREIGN KEY (manager) REFERENCES EMPLOYEE(empno)
+);
+Primary Key: empno (Employee number).
+Foreign Keys:
+deptno references DEPARTMENT(deptno) (Department number).
+manager references EMPLOYEE(empno) (Manager is also an employee, hence self-referencing).
+3. Insert Data into DEPARTMENT Table
+sql
+Copy code
+INSERT INTO DEPARTMENT (deptno, dname, location) VALUES (10, 'Accounting', 'New York');
+INSERT INTO DEPARTMENT (deptno, dname, location) VALUES (20, 'Research', 'San Francisco');
+INSERT INTO DEPARTMENT (deptno, dname, location) VALUES (30, 'Sales', 'Chicago');
+INSERT INTO DEPARTMENT (deptno, dname, location) VALUES (40, 'HR', 'Los Angeles');
+INSERT INTO DEPARTMENT (deptno, dname, location) VALUES (50, 'Marketing', 'Miami');
+4. Insert Data into EMPLOYEE Table
+sql
+Copy code
+INSERT INTO EMPLOYEE (empno, ename, designation, manager, hiredate, salary, commission, deptno) 
+VALUES (101, 'John Doe', 'Manager', NULL, TO_DATE('1980-05-12', 'YYYY-MM-DD'), 75000, 3000, 10);
+
+INSERT INTO EMPLOYEE (empno, ename, designation, manager, hiredate, salary, commission, deptno) 
+VALUES (102, 'Jane Smith', 'Accountant', 101, TO_DATE('1980-09-25', 'YYYY-MM-DD'), 50000, 1500, 10);
+
+INSERT INTO EMPLOYEE (empno, ename, designation, manager, hiredate, salary, commission, deptno) 
+VALUES (103, 'Alice Johnson', 'Research Scientist', 101, TO_DATE('1979-04-01', 'YYYY-MM-DD'), 60000, 1800, 20);
+
+INSERT INTO EMPLOYEE (empno, ename, designation, manager, hiredate, salary, commission, deptno) 
+VALUES (104, 'Bob Brown', 'Sales Executive', 101, TO_DATE('1982-06-15', 'YYYY-MM-DD'), 55000, 1200, 30);
+
+INSERT INTO EMPLOYEE (empno, ename, designation, manager, hiredate, salary, commission, deptno) 
+VALUES (105, 'Sarah White', 'HR Manager', NULL, TO_DATE('1978-11-03', 'YYYY-MM-DD'), 80000, 2500, 40);
+(ii) List the Employees Who Joined Before 1981
+To list employees who joined before 1981, use the following query:
+
+sql
+Copy code
+SELECT * FROM EMPLOYEE
+WHERE hiredate < TO_DATE('1981-01-01', 'YYYY-MM-DD');
+Explanation:
+
+The WHERE clause filters the employees who joined before 1981 by comparing the hiredate column.
+(iii) List the Total Information of Employee Table Along with dname and location of All Employees Working Under ‘Accounting’ and ‘Research’ in Descending Order of deptno
+To get the total information for employees working in the Accounting and Research departments, along with the department name and location, ordered by deptno in descending order, you can use a JOIN between the EMPLOYEE and DEPARTMENT tables:
+
+sql
+Copy code
+SELECT e.*, d.dname, d.location
+FROM EMPLOYEE e
+JOIN DEPARTMENT d ON e.deptno = d.deptno
+WHERE d.dname IN ('Accounting', 'Research')
+ORDER BY e.deptno DESC;
+Explanation:
+
+The JOIN ensures that employee details are combined with their respective department details.
+The WHERE clause filters for employees working in the Accounting and Research departments.
+ORDER BY e.deptno DESC sorts the result by deptno in descending order.
+(iv) Write a PL/SQL Program to Print Numbers from 1 to 5 in Reverse Order Using a FOR Loop
+Here's a PL/SQL block that uses a FOR loop to print numbers from 1 to 5 in reverse order:
+
+plsql
+Copy code
+BEGIN
+    FOR i IN REVERSE 1..5 LOOP
+        DBMS_OUTPUT.PUT_LINE(i);
+    END LOOP;
+END;
+/
+Explanation:
+
+The REVERSE keyword in the FOR loop specifies that the loop will run in reverse order, from 5 down to 1.
+DBMS_OUTPUT.PUT_LINE(i); prints each value of i on a new line.
+(v) Write a MongoDB Query to Perform Insert, Update, and Include PL/SQL Function in a Tax Calculation System
+Let's assume we have a collection tax_system for a Tax Calculation System, where each document represents a person’s tax details. Each document has fields like person_id, name, income, and tax_rate.
+
+1. Insert Operation (Add a new tax record):
+js
+Copy code
+use tax_calculation_system;  // Switch to the tax_calculation_system database
+
+db.tax_system.insertOne({
+    person_id: 1,
+    name: "John Doe",
+    income: 50000,
+    tax_rate: 0.2
+});
+Explanation:
+
+This command inserts a new document into the tax_system collection with details about a person’s tax record, including person_id, name, income, and tax_rate.
+2. Update Operation (Update the income for a particular person):
+To update the income for person_id = 1:
+
+js
+Copy code
+db.tax_system.updateOne(
+    { person_id: 1 },  // Find the person with person_id = 1
+    { $set: { income: 60000 } }  // Update the income to 60000
+);
+Explanation:
+
+The updateOne method finds the person with person_id = 1 and updates the income field to 60000.
+3. PL/SQL Function for Tax Calculation
+We can create a PL/SQL function that calculates the tax for a person based on their income and tax rate:
+
+plsql
+Copy code
+CREATE OR REPLACE FUNCTION calculate_tax(income IN NUMBER, tax_rate IN NUMBER)
+RETURN NUMBER IS
+    tax_amount NUMBER;
+BEGIN
+    tax_amount := income * tax_rate;  -- Calculate tax as income * tax_rate
+    RETURN tax_amount;
+END;
+/
+
+13.
+(i) List Customer Names of All Customers Who Have Taken a Loan > 3,00,000 Using NoSQL (MongoDB)
+For this task, assume that we have two MongoDB collections: customer_fixed_deposit and customer_loan.
+
+1. MongoDB Query to List Customer Names Who Have Taken a Loan > 3,00,000
+We will query the customer_loan collection to find all customers who have a loan greater than 3,00,000, then use $lookup to join the customer_fixed_deposit collection to get their names.
+
+js
+Copy code
+db.customer_loan.aggregate([
+    {
+        $match: { amount: { $gt: 300000 } }  // Match loans greater than 3,00,000
+    },
+    {
+        $lookup: {
+            from: "customer_fixed_deposit",  // Join with the customer_fixed_deposit collection
+            localField: "cust_id",  // Matching field in customer_loan
+            foreignField: "cust_id",  // Matching field in customer_fixed_deposit
+            as: "customer_info"  // Output array of matched documents
+        }
+    },
+    {
+        $unwind: "$customer_info"  // Flatten the matched customer info
+    },
+    {
+        $project: {  // Select only the name fields
+            full_name: { $concat: ["$customer_info.first_name", " ", "$customer_info.mid_name", " ", "$customer_info.last_name"] }
+        }
+    }
+]);
+Explanation:
+
+$match: Filters loans that are greater than 3,00,000.
+$lookup: Joins the customer_loan collection with the customer_fixed_deposit collection to retrieve customer details.
+$unwind: Unwinds the resulting array from $lookup to flatten the customer information.
+$project: Concatenates the first name, middle name, and last name to produce the full customer name.
+(ii) List Customer Names of All Customers Who Have the Same Account Type as Customer ‘Jones Simon’
+To find customers with the same account type as a specific customer (e.g., Jones Simon), you will first need to identify the account type for Jones Simon and then find all other customers with that same account type.
+
+1. MongoDB Query to Find Customers with the Same Account Type
+js
+Copy code
+// Step 1: Find the account type of 'Jones Simon'
+var accountType = db.customer_loan.findOne({ 
+    cust_id: db.customer_fixed_deposit.findOne({ 
+        first_name: "Jones", 
+        last_name: "Simon" 
+    }).cust_id 
+}).acc_type;
+
+// Step 2: Find all customers with the same account type
+db.customer_loan.aggregate([
+    {
+        $match: { acc_type: accountType }  // Match customers with the same account type
+    },
+    {
+        $lookup: {
+            from: "customer_fixed_deposit",  // Join with customer_fixed_deposit to get customer names
+            localField: "cust_id",  // Matching field
+            foreignField: "cust_id",  // Matching field
+            as: "customer_info"
+        }
+    },
+    {
+        $unwind: "$customer_info"  // Flatten customer information
+    },
+    {
+        $project: {
+            full_name: { $concat: ["$customer_info.first_name", " ", "$customer_info.mid_name", " ", "$customer_info.last_name"] }
+        }
+    }
+]);
+Explanation:
+
+First, the account type of Jones Simon is retrieved using findOne.
+The aggregate function then filters customers in customer_loan who have the same account type as Jones Simon and joins the customer_fixed_deposit collection to fetch their names.
+(iii) List Customer Names of All Customers Who Do Not Have a Fixed Deposit
+To find customers who do not have a fixed deposit, you can use a left join (via $lookup) between customer_loan and customer_fixed_deposit and filter for those who do not have any matching fixed deposit information.
+
+1. MongoDB Query to Find Customers Without a Fixed Deposit
+js
+Copy code
+db.customer_loan.aggregate([
+    {
+        $lookup: {
+            from: "customer_fixed_deposit",  // Join with customer_fixed_deposit to check for fixed deposits
+            localField: "cust_id",  // Matching field
+            foreignField: "cust_id",  // Matching field
+            as: "fixed_deposit_info"
+        }
+    },
+    {
+        $match: { "fixed_deposit_info": { $size: 0 } }  // Only include customers without a fixed deposit
+    },
+    {
+        $lookup: {
+            from: "customer_fixed_deposit",  // Join again to fetch customer names
+            localField: "cust_id",
+            foreignField: "cust_id",
+            as: "customer_info"
+        }
+    },
+    {
+        $unwind: "$customer_info"  // Flatten customer information
+    },
+    {
+        $project: {
+            full_name: { $concat: ["$customer_info.first_name", " ", "$customer_info.mid_name", " ", "$customer_info.last_name"] }
+        }
+    }
+]);
+Explanation:
+
+$lookup: Joins customer_loan with customer_fixed_deposit to fetch any fixed deposit information for the customer.
+$match: Filters customers who do not have any fixed deposit (where the fixed_deposit_info array is empty).
+$project: Concatenates first, middle, and last names to generate the full customer name.
+(iv) Write a PL/SQL Program to Find the Greatest of Two Numbers
+Here’s a PL/SQL program that finds the greatest of two numbers using a simple IF statement:
+
+plsql
+Copy code
+DECLARE
+    num1 NUMBER := 50;
+    num2 NUMBER := 75;
+    greatest NUMBER;
+BEGIN
+    IF num1 > num2 THEN
+        greatest := num1;
+    ELSE
+        greatest := num2;
+    END IF;
+
+    DBMS_OUTPUT.PUT_LINE('The greatest number is: ' || greatest);
+END;
+/
+Explanation:
+
+The PL/SQL block declares two variables (num1 and num2) and compares them using an IF condition.
+The DBMS_OUTPUT.PUT_LINE is used to display the result, which will print the greatest number.
+(v) Write a MongoDB Query to Perform Insert, Update, and Include a PL/SQL Function in a Tax Calculation System
+1. Insert Operation (MongoDB)
+Let's assume we have a tax_system collection where each document contains tax details for individuals.
+
+js
+Copy code
+db.tax_system.insertOne({
+    person_id: 1,
+    name: "John Doe",
+    income: 50000,
+    tax_rate: 0.2
+});
+Explanation:
+
+This query inserts a new tax record for John Doe with an income of 50000 and a tax rate of 0.2.
+2. Update Operation (MongoDB)
+Now, to update the income of John Doe:
+
+js
+Copy code
+db.tax_system.updateOne(
+    { person_id: 1 },  // Find the record with person_id = 1
+    { $set: { income: 60000 } }  // Update the income to 60000
+);
+Explanation:
+
+This query updates the income for the person with person_id = 1 to 60000.
+3. PL/SQL Function for Tax Calculation
+Now, let’s write a PL/SQL function that calculates tax based on income and tax rate.
+
+plsql
+Copy code
+CREATE OR REPLACE FUNCTION calculate_tax(income IN NUMBER, tax_rate IN NUMBER)
+RETURN NUMBER IS
+    tax_amount NUMBER;
+BEGIN
+    tax_amount := income * tax_rate;  -- Calculate tax as income * tax_rate
+    RETURN tax_amount;
+END;
+/
+
+14.
+(i) Display Employee Name, Designation, Department Number, and Department Name for Employees Located in ‘Tnagar’
+To fetch the required details, we need to join the EMPLOYEE table with the DEPARTMENT table on deptno and filter based on the location 'Tnagar':
+
+sql
+Copy code
+SELECT e.ename, e.designation, e.deptno, d.dname
+FROM EMPLOYEE e
+JOIN DEPARTMENT d ON e.deptno = d.deptno
+WHERE d.location = 'Tnagar';
+Explanation:
+
+JOIN is used to combine the data from the EMPLOYEE and DEPARTMENT tables based on the common deptno field.
+The WHERE clause filters the results to include only employees working in departments located in 'Tnagar'.
+(ii) Count the Different Job Titles (Designations) in the Employee Table
+To count the distinct job titles (designations) in the EMPLOYEE table, we can use the COUNT function with the DISTINCT keyword:
+
+sql
+Copy code
+SELECT COUNT(DISTINCT designation) AS job_title_count
+FROM EMPLOYEE;
+Explanation:
+
+COUNT(DISTINCT designation) counts the unique values in the designation column.
+The result will give the number of distinct job titles in the EMPLOYEE table.
+(iii) List the Details of Employees Who Are Acting as Managers to Other Employees
+Employees who are managers to others are those who appear in the manager column of the EMPLOYEE table. We need to find employees whose empno is referenced as a manager by other employees.
+
+sql
+Copy code
+SELECT DISTINCT e.*
+FROM EMPLOYEE e
+WHERE e.empno IN (SELECT DISTINCT manager FROM EMPLOYEE WHERE manager IS NOT NULL);
+Explanation:
+
+The subquery SELECT DISTINCT manager FROM EMPLOYEE WHERE manager IS NOT NULL retrieves all unique empno values that appear as managers.
+The outer query then retrieves all employees (e.*) whose empno matches any of those manager IDs.
+(iv) Write a PL/SQL Program to Print Numbers from 1 to 5 in Reverse Order Using a FOR Loop
+Here’s the PL/SQL program that prints numbers from 1 to 5 in reverse order:
+
+plsql
+Copy code
+BEGIN
+    FOR i IN REVERSE 1..5 LOOP
+        DBMS_OUTPUT.PUT_LINE(i);
+    END LOOP;
+END;
+/
+Explanation:
+
+The REVERSE keyword in the FOR loop causes the loop to run from 5 down to 1.
+DBMS_OUTPUT.PUT_LINE(i) prints each number on a new line.
+(v) Write a MongoDB Query to Perform Insert, Update, and Include a PL/SQL Function in a Vegetable Selling Management System
+Let’s assume we have a MongoDB collection called vegetable_sales that stores details about vegetable sales (e.g., sale_id, vegetable_name, quantity, price, total_amount).
+
+1. Insert Operation in MongoDB (Insert a New Sale Record)
+js
+Copy code
+db.vegetable_sales.insertOne({
+    sale_id: 1,
+    vegetable_name: "Tomato",
+    quantity: 50,
+    price: 30,
+    total_amount: 50 * 30  // total_amount is calculated based on quantity * price
+});
+Explanation:
+
+This query inserts a new sale record into the vegetable_sales collection. The total_amount is calculated as the product of quantity and price.
+2. Update Operation in MongoDB (Update the Quantity of a Specific Vegetable)
+js
+Copy code
+db.vegetable_sales.updateOne(
+    { sale_id: 1 },  // Find the sale record with sale_id = 1
+    { $set: { quantity: 60, total_amount: 60 * 30 } }  // Update quantity and recalculate total_amount
+);
+Explanation:
+
+The updateOne method finds the sale record with sale_id = 1 and updates the quantity and recalculates the total_amount.
+3. PL/SQL Function for Total Sales Calculation
+Let’s assume we want to calculate the total sales amount for a given vegetable (based on the quantity sold and price). Here's the PL/SQL function:
+
+plsql
+Copy code
+CREATE OR REPLACE FUNCTION calculate_total_sales(quantity IN NUMBER, price IN NUMBER)
+RETURN NUMBER IS
+    total_sales NUMBER;
+BEGIN
+    total_sales := quantity * price;  -- Calculate total sales as quantity * price
+    RETURN total_sales;
+END;
+/
+
